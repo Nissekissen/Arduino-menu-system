@@ -5,18 +5,17 @@
 
 #define SNAKE_ID 0
 
-
 class GameHandler
 {
 private:
     int game;
     Snake *snake;
-    U8GLIB_SSD1306_128X64* u8g;
+    U8GLIB_SSD1306_128X64 *u8g;
 
 public:
     GameHandler(){};
 
-    GameHandler(U8GLIB_SSD1306_128X64* _u8g, int _game)
+    GameHandler(U8GLIB_SSD1306_128X64 *_u8g, int _game)
     {
         u8g = _u8g;
         game = _game;
@@ -25,18 +24,34 @@ public:
 
     void init(void)
     {
-        snake->init();
+        switch (game)
+        {
+        case 0:
+            snake->init();
+            break;
+        }
     }
 
     void draw(void)
     {
-        snake->draw();
+        switch (game)
+        {
+        case 0:
+            snake->draw();
+            break;
+        }
     }
     void update(void)
     {
-        snake->update();
+        switch (game)
+        {
+        case 0:
+            snake->update();
+            break;
+        }
     }
-    void setGame(int _game) {
+    void setGame(int _game)
+    {
         game = _game;
     }
 };
