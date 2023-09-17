@@ -96,6 +96,8 @@ private:
     int snakeSize = 4;
 
 public:
+    Snake() {};
+
     Snake(U8GLIB_SSD1306_128X64 *_u8g)
     {
         u8g = _u8g;

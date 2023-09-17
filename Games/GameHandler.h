@@ -2,14 +2,18 @@
 #define GAME_H
 
 #include "Snake.h"
+#include "Pong.h"
+#include "3DCube.h"
 
 #define SNAKE_ID 0
 
 class GameHandler
 {
 private:
-    int game;
-    Snake *snake;
+    int game = 0;
+    Snake snake;
+    Pong pong;
+    Cube cube;
     U8GLIB_SSD1306_128X64 *u8g;
 
 public:
@@ -19,7 +23,9 @@ public:
     {
         u8g = _u8g;
         game = _game;
-        snake = new Snake(u8g);
+        snake = Snake(u8g);
+        pong = Pong(u8g);
+        cube = Cube(u8g);
     }
 
     void init(void)
@@ -27,7 +33,13 @@ public:
         switch (game)
         {
         case 0:
-            snake->init();
+            snake.init();
+            break;
+        case 1:
+            pong.init();
+            break;
+        case 2:
+            cube.init();
             break;
         }
     }
@@ -37,7 +49,13 @@ public:
         switch (game)
         {
         case 0:
-            snake->draw();
+            snake.draw();
+            break;
+        case 1:
+            pong.draw();
+            break;
+        case 2:
+            cube.draw();
             break;
         }
     }
@@ -46,7 +64,13 @@ public:
         switch (game)
         {
         case 0:
-            snake->update();
+            snake.update();
+            break;
+        case 1:
+            pong.update();
+            break;
+        case 2:
+            cube.update();
             break;
         }
     }

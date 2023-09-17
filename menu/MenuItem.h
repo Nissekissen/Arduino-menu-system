@@ -1,4 +1,4 @@
-#include "../Games/Game.h"
+#include "../Games/GameHandler.h"
 
 
 class MenuItem
@@ -11,6 +11,7 @@ public:
     MenuItem(char* displayName, int _game)
     {
         _displayName = displayName;
+        game = _game;
     }
 
     char* getName() { return _displayName; }
