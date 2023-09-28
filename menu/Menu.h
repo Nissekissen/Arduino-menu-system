@@ -1,5 +1,19 @@
+/**
+ * @file Menu.h
+ * 
+ * @brief Menu object that handles the menu
+*/
+
 #include "MenuItem.h"
 
+/**
+ * Menu class for a simple menu system.
+ * 
+ * @brief Menu object that handles the menu
+ * 
+ * @param menuItems Array of MenuItem objects.
+ * @param u8g U8GLIB_SSD1306_128X64 object for drawing to the screen.s
+*/
 class Menu
 {
 private:
@@ -12,6 +26,9 @@ private:
 
     bool isPlaying;
 
+    /**
+     * Draw the menu to the screen.
+    */
     void drawMenu(void)
     {
         uint8_t i, h;
@@ -38,6 +55,9 @@ private:
         }
     }
 
+    /**
+     * Update the menu.
+    */
     void updateMenu(void)
     {
 
@@ -88,6 +108,9 @@ public:
         gameHandler = GameHandler(u8g, 0);
     }
 
+    /**
+     * Initialize the menu.
+    */
     void init()
     {
         Wire.begin();
@@ -98,6 +121,9 @@ public:
         pinMode(6, INPUT);
     }
 
+    /**
+     * Draw the menu.
+    */
     void loop()
     {
         u8g->firstPage();

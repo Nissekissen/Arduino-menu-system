@@ -1,11 +1,23 @@
+/**
+ * @file Pong.h
+ * 
+ * @brief A pong game for the menu system.
+*/
 
 
+/**
+ * Paddle class for the pong game
+ * 
+ * @param u8g U8GLIB_SSD1306_128X64 object for drawing to the screen
+ * @param x X position of the paddle
+ * @param y Y position of the paddle
+*/
 class Paddle
 {
 private:
     int x, y = 0;
     int w = 4;
-    int h = 24;
+    int h = 16;
 
     int speed = 4;
 
@@ -22,11 +34,21 @@ public:
         y = _y;
     }
 
+    /**
+     * Draw the paddle to the screen
+    */
     void draw()
     {
         u8g->drawBox(x, y, w, h);
     }
 
+    /**
+     * Check if the ball collided with the paddle
+     * 
+     * @param _x X position of the ball
+     * @param _y Y position of the ball
+     * @return true if the ball collided with the paddle
+    */
     bool collided(int _x, int _y)
     {
         if (_x >= x - 4 && _x <= x + 6 && _y >= y && _y < y + h - 2)
@@ -36,12 +58,32 @@ public:
         return false;
     }
 
+    /**
+     * Move the paddle up or down
+     * 
+     * @param direction 1 for up, -1 for down
+    */
     void move(int direction)
     {
+        if (y + direction * speed <= 0) {
+            y = 0;
+            return;
+        }
+        if (y + direction * speed >= 48) {
+            y = 48;
+            return;
+        }
         y += direction * speed;
     }
 };
 
+/**
+ * Ball class for the pong game
+ * 
+ * @param u8g U8GLIB_SSD1306_128X64 object for drawing to the screen
+ * @param p1 Paddle object for player 1
+ * @param p2 Paddle object for player 2
+*/
 class Ball
 {
 private:
@@ -66,11 +108,17 @@ public:
         randomSeed(analogRead(A2));
     }
 
+    /**
+     * Draw the ball to the screen.
+    */
     void draw()
     {
         u8g->drawBox(x - 2, y - 2, 4, 4);
     }
 
+    /**
+     * Update the ball's position. It uses the angle and speed to calculate the new position.
+    */
     void update()
     {
 
@@ -85,6 +133,16 @@ public:
         {
             angle += PI;
             angle = -angle;
+            
+
+            // Change angle by a small amount
+            int dir = random(2) == 0 ? -1 : 1;
+            int _a = random(8, 16);
+            float angleOffset = PI / (dir * _a);
+            angle += angleOffset;
+
+            // Increase speed
+            speed += (random(2) == 0 ? 1 : 1);
         }
 
         // If ball is out of bounds
@@ -98,29 +156,49 @@ public:
         y += speed * sin(angle);
     }
 
+    /**
+     * Check if the game is over.
+     * 
+     * @return bool True if the game is over.
+    */
     bool isGameOver()
     {
         return gameOver;
     }
 
+    /**
+     * Reset the ball.
+    */
     void reset(int side)
     {
+
+        speed = 5;
+
         gameOver = false;
         x = 64;
         y = 32;
         int dir = random(2) == 0 ? -1 : 1;
-
         int _a = random(4, 11);
-        Serial.println(_a * dir);
+        
         angle = PI / (dir * _a) + (side == -1 ? PI : 0);
     }
 
+    /**
+     * Get the X position of the ball.
+     * 
+     * @return int X position of the ball.
+    */
     int getX()
     {
         return (int)x;
     }
 };
 
+/**
+ * Pong game for being used with the simple menu system.
+ * 
+ * @param u8g U8GLIB_SSD1306_128X64 object for drawing to the screen.
+*/
 class Pong
 {
 private:
@@ -138,14 +216,21 @@ public:
         u8g = _u8g;
     }
 
+    /**
+     * Initialize the game.
+    */
     void init()
     {
         player1 = Paddle(u8g, 2, 0);
         player2 = Paddle(u8g, 122, 0);
 
+
         ball = Ball(u8g, &player1, &player2);
     };
 
+    /**
+     * Draw the game.
+    */
     void draw()
     {
 
@@ -165,6 +250,9 @@ public:
         ball.draw();
     }
 
+    /**
+     * Update the game.
+    */
     void update()
     {
         if (digitalRead(2))

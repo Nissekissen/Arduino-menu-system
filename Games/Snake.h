@@ -1,9 +1,18 @@
-
+/**
+ * @file Snake.h
+ * 
+ * @brief A snake game for the menu system.
+*/
 
 int SQUARE_SIZE = 4;
 int GRID_X = 128 / SQUARE_SIZE;
 int GRID_Y = 64 / SQUARE_SIZE;
 
+/**
+ * A food object for the snake game.
+ * 
+ * @param U8GLIB_SSD1306_128X64 object for drawing to the screen
+*/
 class Food
 {
 private:
@@ -20,6 +29,9 @@ public:
         u8g = _u8g;
     }
 
+    /**
+     * Regenerate the food at a random position
+    */
     void regenerate()
     {
         int oldX = x, oldY = y;
@@ -30,15 +42,30 @@ public:
         } while (oldX == x && oldY == y);
     }
 
+    /**
+     * Get the X and Y position of the food
+     * 
+     * @return int X and Y position of the food
+    */
     int getX() { return x; }
     int getY() { return y; }
 
+    /**
+     * Draw the food to the screen.
+    */
     void draw()
     {
         u8g->drawBox(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
     }
 };
 
+/**
+ * A part of the snake
+ * 
+ * @param x X position of the part
+ * @param y Y position of the part
+ * @param u8g The display to draw to
+*/
 class SnakePart
 {
 private:
@@ -68,6 +95,13 @@ public:
     }
 };
 
+/**
+ * A helper function to shift the values in an array
+ * This function is used for moving the snake.
+ * 
+ * @param values The array to shift
+ * @param size The size of the array
+*/
 void shift(SnakePart values[], int size)
 {
     Serial.println(values[0].x);
@@ -83,6 +117,11 @@ void shift(SnakePart values[], int size)
     Serial.println(values[0].x);
 }
 
+/**
+ * A snake game
+ * 
+ * @param u8g U8GLIB_SSD1306_128X64 object for drawing to the screen
+*/
 class Snake
 {
 private:
@@ -104,6 +143,9 @@ public:
         food = Food(u8g);
     };
 
+    /**
+     * Initialize the snake.
+    */
     void init()
     {
         Serial.println("Init snake");
@@ -113,6 +155,9 @@ public:
         tail[3] = SnakePart(0, 0, u8g);
     }
 
+    /**
+     * Draws the snake and the food
+    */
     void draw()
     {
         food.draw();
@@ -125,6 +170,9 @@ public:
 
     }
 
+    /**
+     * Updates the snake's position and checks for collisions
+    */
     void update(void)
     {
         if (tail[0].x == food.getX() && tail[0].y == food.getY()) {
@@ -166,7 +214,7 @@ public:
         {
             tail[0].y = 0;
         }
-        if (tail[0].y <= 0)
+        if (tail[0].y < 0)
         {
             tail[0].y = GRID_Y - 1;
         }

@@ -1,7 +1,20 @@
+/**
+ * @file 3DCube.h
+ * 
+ * @brief A 3D cube renderer for the menu system.
+*/
+
 #define X_AXIS 0
 #define Y_AXIS 1
 #define Z_AXIS 2
 
+/**
+ * A struct for handling 3D vertices
+ * 
+ * @param x The x coordinate of the vertex
+ * @param y The y coordinate of the vertex
+ * @param z The z coordinate of the vertex
+*/
 struct Vertex3D
 {
     float x, y, z = 0;
@@ -15,6 +28,12 @@ struct Vertex3D
     }
 };
 
+/**
+ * A struct for handling 2D vertices
+ * 
+ * @param x The x coordinate of the vertex
+ * @param y The y coordinate of the vertex
+*/
 struct Vertex2D
 {
     float x, y = 0;
@@ -27,6 +46,14 @@ struct Vertex2D
     }
 };
 
+/**
+ * A simple struct for handling edges easily
+ * 
+ * The edges are stored completely in 2D and thereby do not need to be converted
+ * 
+ * @param p1 The first vertex of the edge
+ * @param p2 The second vertex of the edge
+*/
 struct Edge
 {
     Vertex2D *p1;
@@ -40,6 +67,11 @@ struct Edge
     }
 };
 
+/**
+ * @brief A 3D cube renderer using the U8GLIB library
+ * 
+ * @param u8g U8GLIB_SSD1306_128X64 object for drawing to the screen
+*/
 class Cube
 {
 private:
@@ -58,20 +90,15 @@ public:
     Cube(U8GLIB_SSD1306_128X64 *_u8g)
     {
         u8g = _u8g;
-
-        v[0] = Vertex3D(1, 1, 1);
-        v[1] = Vertex3D(1, -1, 1);
-        v[2] = Vertex3D(-1, -1, 1);
-        v[3] = Vertex3D(-1, 1, 1);
-        v[4] = Vertex3D(1, 1, -1);
-        v[5] = Vertex3D(1, -1, -1);
-        v[6] = Vertex3D(-1, -1, -1);
-        v[7] = Vertex3D(-1, 1, -1);
     }
 
+
+    /**
+     * Initialize the cube
+    */
     void init()
     {
-        v[0] = Vertex3D(2, 1, 1);
+        v[0] = Vertex3D(1, 1, 1);
         v[1] = Vertex3D(1, -1, 1);
         v[2] = Vertex3D(-1, -1, 1);
         v[3] = Vertex3D(-1, 1, 1);
@@ -101,6 +128,9 @@ public:
         sc = 10;
     }
 
+    /**
+     * Draw the cube to the screen
+    */
     void draw()
     {
         for (int i = 0; i < 8; i++)
@@ -117,6 +147,9 @@ public:
         }
     }
 
+    /**
+     * Rotating the cube from user inputs.
+    */
     void update()
     {
         if (digitalRead(2))
@@ -143,6 +176,13 @@ public:
         }
     }
 
+    /**
+     * Project a 3D point to a 2D point using planar perspective projection
+     * 
+     * @param p The 3D point to project
+     * 
+     * @return The 2D point
+    */
     Vertex2D projectPoint(Vertex3D p)
     {
         Vertex2D proj;
@@ -153,7 +193,11 @@ public:
     }
 
     
-
+    /**
+     * Rotate the cube around the Z axis
+     *
+     * @param angle The angle to rotate the cube by (radians)
+    */
     void rotateY(double angle)
     {
 
@@ -179,6 +223,11 @@ public:
         }
     }
 
+    /**
+     * Rotate the cube around the Z axis
+     * 
+     * @param angle The angle to rotate the cube by (radians)
+    */
     void rotateZ(double angle)
     {
 

@@ -1,3 +1,9 @@
+/**
+ * @file GameHandler.h
+ * 
+ * @brief Game handler for handling the games
+*/
+
 #ifndef GAME_H
 #define GAME_H
 
@@ -7,6 +13,12 @@
 
 #define SNAKE_ID 0
 
+/**
+ * Game handler for handling the games
+ * 
+ * @param U8GLIB_SSD1306_128X64 The display
+ * @param game The id of the selected game
+*/
 class GameHandler
 {
 private:
@@ -28,6 +40,9 @@ public:
         cube = Cube(u8g);
     }
 
+    /**
+     * Initialize the game
+    */
     void init(void)
     {
         switch (game)
@@ -44,6 +59,9 @@ public:
         }
     }
 
+    /**
+     * Draw the game
+    */
     void draw(void)
     {
         switch (game)
@@ -59,6 +77,10 @@ public:
             break;
         }
     }
+
+    /**
+     * Update the game
+    */
     void update(void)
     {
         switch (game)
@@ -74,6 +96,12 @@ public:
             break;
         }
     }
+
+    /**
+     * Set the game
+     * 
+     * @param _game The id of the selected game
+    */
     void setGame(int _game)
     {
         game = _game;
