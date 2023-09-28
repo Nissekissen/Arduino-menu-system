@@ -90,6 +90,15 @@ public:
     Cube(U8GLIB_SSD1306_128X64 *_u8g)
     {
         u8g = _u8g;
+
+        v[0] = Vertex3D(1, 1, 1);
+        v[1] = Vertex3D(1, -1, 1);
+        v[2] = Vertex3D(-1, -1, 1);
+        v[3] = Vertex3D(-1, 1, 1);
+        v[4] = Vertex3D(1, 1, -1);
+        v[5] = Vertex3D(1, -1, -1);
+        v[6] = Vertex3D(-1, -1, -1);
+        v[7] = Vertex3D(-1, 1, -1);
     }
 
 
